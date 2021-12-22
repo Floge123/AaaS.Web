@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MetricChart } from 'app/shared/domain/metric-chart';
 import Chart from 'chart.js';
+import { environment } from 'environments/environment.prod';
 import { MetricCCErrorMessages } from './metric-chart-create-error-messages';
 
 @Component({
@@ -49,7 +50,7 @@ export class MetricChartCreateComponent implements OnInit {
   }
 
   submitForm() {
-    localStorage.setItem(`AaaS.Chart.${this.chartInfo.chartName}`, JSON.stringify(this.chartInfo));
+    localStorage.setItem(`${environment.storagePrefix}${this.chartInfo.chartName}`, JSON.stringify(this.chartInfo));
     window.location.reload();
   }
 

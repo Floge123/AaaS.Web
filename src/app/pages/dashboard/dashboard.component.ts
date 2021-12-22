@@ -23,15 +23,12 @@ export class DashboardComponent implements OnInit{
   constructor() {}
 
   ngOnInit(){
-    console.log("init metric");
     for (var i = 0; i < localStorage.length; i++) {
-      console.log(localStorage.key(i).substring(0,10));
       if (localStorage.key(i).substring(0,10) == "AaaS.Chart") {
         this.charts.push(JSON.parse(localStorage.getItem(localStorage.key(i))));
       }
     }
-    //this.charts.push(new MetricChart("WordsPerMinute", null, "Words per Minute", "line", "#2930A2", "#2930A2"));
-    //this.charts.push(new MetricChart("ErrorCounter", "8t4iupbz-aozrohu-vqdu9w6-1iwb8zm_5", "Misstyped words", "line", "#ce5a29", "#ce5a29"));
+    this.charts.sort((c1, c2) => (c1.chartName < c2.chartName ? -1 : 1));
   }
 
   generateCreateForm() {

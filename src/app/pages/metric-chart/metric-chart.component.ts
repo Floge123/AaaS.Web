@@ -18,7 +18,6 @@ export class MetricChartComponent implements OnInit {
   constructor(private metricService: MetricService) { }
 
   ngOnInit(): void {
-    console.log(this.chartInfo)
     this.metricService.getByFilter(`${environment.appKey}`, this.chartInfo.metricName, this.chartInfo.clientId).subscribe(res => {
       new Chart(this.chartRef.nativeElement, {
         type: this.chartInfo.chartType,
@@ -93,4 +92,16 @@ export class MetricChartComponent implements OnInit {
     });
   }
 
+  openDetails() {
+
+  }
+
+  deleteChart() {
+    localStorage.removeItem(`${environment.storagePrefix}${this.chartInfo.chartName}`);
+    window.location.reload();
+  }
+
+  editChart() {
+
+  }
 }
