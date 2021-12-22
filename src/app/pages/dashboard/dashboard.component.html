@@ -9,6 +9,11 @@
     <app-metric-chart-create *ngIf="createMode" class="col-md-12"></app-metric-chart-create>
 </div>
 
-<app-metric-chart
-    *ngFor="let chart of charts"
-    [chartInfo]="chart"></app-metric-chart>
+<div class="row" *ngFor="let index of charts; let i = index; let even = even;">
+    <div class="col-6" *ngIf="even">
+        <app-metric-chart [chartInfo]="charts[i]"></app-metric-chart>
+    </div>
+    <div class="col-6" *ngIf="even && charts[i+1]">
+        <app-metric-chart [chartInfo]="charts[i+1]"></app-metric-chart>
+    </div>    
+</div>
