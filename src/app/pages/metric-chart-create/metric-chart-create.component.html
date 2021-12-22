@@ -1,0 +1,56 @@
+<div class="card card-3">
+    <div class="card-heading text-center">
+        <app-metric-chart *ngIf="showPreview" [chartInfo]="chartInfo"></app-metric-chart>
+        <div *ngIf="!showPreview">
+            Preview will be shown here.
+        </div>
+    </div>
+    <div class="card-body text-center">
+        <h2>New Chart</h2>
+        <form [formGroup]="myForm"
+          (ngSubmit)="submitForm()">
+        <div class="row form-group mx-2">
+            <div class="input-group">
+                <input type="text" class="form-control text-center" formControlName="chartName" placeholder="Enter chartname">
+                <div *ngIf="errors.chartName">
+                    {{ errors.chartName }}
+                </div>
+            </div>
+            <div class="input-group">
+                <input type="text" class="form-control text-center" formControlName="metricName" placeholder="Enter metricname (optional)">
+            </div>
+            <div class="input-group">
+                <input type="text" class="form-control text-center" formControlName="clientId" placeholder="Enter clientId (optional)">
+            </div>
+            <div class="row w-100 ml-1">
+                <div class="col-6 text-center">Border color</div>
+                <div class="col-6 text-center">Fill color</div>
+            </div>
+            <div class="input-group">
+                <input type="color" class="form-control text-center border-right" formControlName="borderColor" placeholder="Enter border color">
+                <input type="color" class="form-control text-center" formControlName="fillColor" placeholder="Enter fill color">
+            </div>
+            <div class="row w-100 ml-1">
+                <div class="col-12 text-center">Chart Type</div>
+            </div>
+            <div class="input-group">
+                <select class="form-control text-center" formControlName="chartType">
+                    <option>line</option>
+                    <option>bar</option>
+                </select>   
+            </div>
+            <div class="row w-100 ml-1">
+                <div class="col-4 text-center">
+                    <button type="button" class="btn" (click)="createPreview()" [disabled]="myForm.invalid">Show Preview</button>
+                </div>
+                <div class="col-4 text-center">
+                    <button type="button" class="btn btn-danger" (click)="cancelEdit()">Cancel</button>
+                </div>
+                <div class="col-4 text-center">
+                    <button type="submit" class="btn btn-success" [disabled]="myForm.invalid">Create</button>
+                </div>
+            </div>
+        </div>
+    </form>
+    </div>
+</div>
