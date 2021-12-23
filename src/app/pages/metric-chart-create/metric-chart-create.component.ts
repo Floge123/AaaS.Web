@@ -41,19 +41,28 @@ export class MetricChartCreateComponent implements OnInit {
       metricName: this.chartInfo.metricName,
       clientId: this.chartInfo.clientId,
       borderColor: this.chartInfo.borderColor,
+      colorEqualCheck: true,
       fillColor: this.chartInfo.fillColor,
       chartType: [ this.chartInfo.chartType, Validators.required]
     })
     this.myForm.statusChanges.subscribe(() => {
       this.showPreview = false;
       this.updateErrorMessages()
+      if (this.myForm.valid) {
+        this.chartInfo = this.myForm.value;
+      }
     });
   }
 
-  createPreview() {
-    const info: MetricChart = this.myForm.value;
-    this.chartInfo = info;
+  useBorderColor() {
+    this.myForm.patchValue({fillColor: this.myForm.controls['borderColor'].value});
+  }
 
+  useFillColor() {
+    this.myForm.patchValue({borderColor: this.myForm.controls['fillColor'].value});
+  }
+
+  createPreview() {
     this.showPreview = true;
   }
 
@@ -62,7 +71,6 @@ export class MetricChartCreateComponent implements OnInit {
   }
 
   submitForm() {
-    this.chartInfo = this.myForm.value;
     if (this.editMode) {
       localStorage.removeItem(`${environment.storagePrefix}${this.editChartName}`);
       this.editedEvent.emit({old: this.editChartName, new: this.chartInfo});

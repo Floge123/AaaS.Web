@@ -24,12 +24,21 @@
                 <input type="text" class="form-control text-center" formControlName="clientId" placeholder="Enter clientId (optional)">
             </div>
             <div class="row w-100 ml-1">
-                <div class="col-6 text-center">Border color</div>
-                <div class="col-6 text-center">Fill color</div>
+                <div class="col-4 text-center">Border color</div>
+                <div class="col-4 text-center">Copy Color Over</div>
+                <div class="col-4 text-center">Fill color</div>
             </div>
             <div class="input-group">
                 <input type="color" class="form-control text-center border-right" formControlName="borderColor" placeholder="Enter border color">
-                <input type="color" class="form-control text-center" formControlName="fillColor" placeholder="Enter fill color">
+                <button type="button" class="btn btn-success btn-circle btn-circle-sm m-1"
+                        (click)="useBorderColor()">
+                  <i class='fa fa-arrow-circle-right'></i>
+                </button>
+                <button type="button" class="btn btn-success btn-circle btn-circle-sm m-1"
+                        (click)="useFillColor()">
+                  <i class='fa fa-arrow-circle-left'></i>
+                </button>
+                <input type="color" class="form-control text-center border-left" formControlName="fillColor" placeholder="Enter fill color">
             </div>
             <div class="row w-100 ml-1">
                 <div class="col-12 text-center">Chart Type</div>
