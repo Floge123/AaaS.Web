@@ -1,7 +1,7 @@
 <div class="card card-3">
     <div class="card-heading text-center">
-        <app-metric-chart *ngIf="showPreview" [chartInfo]="chartInfo"></app-metric-chart>
-        <div *ngIf="!showPreview">
+        <app-metric-chart *ngIf="showPreview" [showButtons]="false" [chartInfo]="chartInfo"></app-metric-chart>
+        <div  *ngIf="!showPreview">
             Preview will be shown here.
         </div>
     </div>
@@ -37,7 +37,7 @@
                 <select class="form-control text-center" formControlName="chartType">
                     <option>line</option>
                     <option>bar</option>
-                </select>   
+                </select>
             </div>
             <div class="row w-100 ml-1">
                 <div class="col-4 text-center">

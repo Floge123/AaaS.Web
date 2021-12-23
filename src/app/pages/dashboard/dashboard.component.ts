@@ -17,22 +17,36 @@ import { MetricChartCreateComponent } from '../metric-chart-create/metric-chart-
 export class DashboardComponent implements OnInit{
   charts: MetricChart[] = [];
 
-  createMode: boolean = false;
+  createMode = false;
   createForm: MetricChartCreateComponent;
 
   constructor() {}
 
-  ngOnInit(){
-    for (var i = 0; i < localStorage.length; i++) {
-      if (localStorage.key(i).substring(0,10) == "AaaS.Chart") {
+  ngOnInit() {
+    for (let i = 0; i < localStorage.length; i++) {
+      if (localStorage.key(i).substring(0, 10) === 'AaaS.Chart') {
         this.charts.push(JSON.parse(localStorage.getItem(localStorage.key(i))));
       }
     }
-    this.charts.sort((c1, c2) => (c1.chartName < c2.chartName ? -1 : 1));
+    this.sortCharts();
   }
 
   generateCreateForm() {
     this.createMode = true;
+  }
+
+  sortCharts() {
+    this.charts.sort((c1, c2) => (c1.chartName < c2.chartName ? -1 : 1));
+  }
+
+  chartCreatedEventHandle(event: MetricChart) {
+    this.createMode = false;
+    this.charts.push(event);
+    this.sortCharts();
+  }
+
+  cancelCreate() {
+    this.createMode = false;
   }
 
 

@@ -5,13 +5,12 @@
             <div class="col-5">
                 <h5 class="card-title">{{chartInfo.chartName}}</h5>
             </div>
-            <div class="col-2 text-center">
+            <div *ngIf="showButtons" class="col-2 text-center">
                 <button type="button" class="btn btn-primary" (click)="openDetails()">Details</button>
             </div>
-            <div class="col-5 text-right">
+            <div *ngIf="showButtons" class="col-5 text-right">
                 <button type="button" class="btn btn-danger" (click)="deleteChart()">Delete</button>
                 <button type="button" class="btn" (click)="editChart()">Edit</button>
-                
             </div>
         </div>
         <p class="card-category my-1" *ngIf="chartInfo.metricName">Metrics: {{chartInfo.metricName}}</p>

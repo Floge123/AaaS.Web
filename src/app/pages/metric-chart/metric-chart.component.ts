@@ -11,6 +11,7 @@ import Chart from 'chart.js';
 })
 export class MetricChartComponent implements OnInit {
   @Input() chartInfo: MetricChart;
+  @Input() showButtons: boolean;
 
   @ViewChild('chart')
   private chartRef: ElementRef;
@@ -48,10 +49,9 @@ export class MetricChartComponent implements OnInit {
           scales: {
             y: [{
               ticks: {
-                fontColor: "#9f9f9f",
+                fontColor: '#9f9f9f',
                 beginAtZero: false,
                 maxTicksLimit: 5,
-                //padding: 20
               },
               grid: {
                 display: true,
@@ -61,7 +61,7 @@ export class MetricChartComponent implements OnInit {
               },
               gridLines: {
                 drawBorder: true,
-                zeroLineColor: "#ccc",
+                zeroLineColor: '#ccc',
                 color: 'rgb(255,255,255)'
               }
 
@@ -78,12 +78,12 @@ export class MetricChartComponent implements OnInit {
               gridLines: {
                 drawBorder: true,
                 color: 'rgba(255,255,255,0.1)',
-                zeroLineColor: "gray",
+                zeroLineColor: 'gray',
                 display: true,
               },
               ticks: {
                 padding: 20,
-                fontColor: "#9f9f9f"
+                fontColor: '#9f9f9f'
               }
             }]
           },

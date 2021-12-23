@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MetricChart } from 'app/shared/domain/metric-chart';
 import Chart from 'chart.js';
@@ -14,7 +14,10 @@ export class MetricChartCreateComponent implements OnInit {
   myForm!: FormGroup;
   chartInfo: MetricChart = new MetricChart();
   errors: { [key: string]: string } = {};
-  showPreview: boolean = false;
+  showPreview = false;
+
+  @Output() createdEvent = new EventEmitter<any>();
+  @Output() cancelCreateEvent = new EventEmitter<any>();
 
   constructor(private fb: FormBuilder) { }
 
@@ -46,23 +49,23 @@ export class MetricChartCreateComponent implements OnInit {
   }
 
   cancelEdit() {
-    window.location.reload();
+    this.cancelCreateEvent.emit();
   }
 
   submitForm() {
     localStorage.setItem(`${environment.storagePrefix}${this.chartInfo.chartName}`, JSON.stringify(this.chartInfo));
-    window.location.reload();
+    this.createdEvent.emit(this.chartInfo);
   }
 
   updateErrorMessages() {
     this.errors = {};
-    
+
     for (const message of MetricCCErrorMessages) {
       const control = this.myForm.get(message.forControl);
       if (control &&
           control.dirty &&
           control.invalid &&
-          control.errors != null && 
+          control.errors != null &&
           control.errors[message.forValidator] &&
           !this.errors[message.forControl]) {
         this.errors[message.forControl] = message.text;

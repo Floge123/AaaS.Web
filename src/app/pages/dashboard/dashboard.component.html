@@ -1,19 +1,21 @@
 
 <div class="row">
     <div *ngIf="!createMode" class="col-md-1 mx-auto my-4 text-center">
-        <button class="btn btn-success btn-circle btn-circle-sm m-1" 
+        <button class="btn btn-success btn-circle btn-circle-sm m-1"
                 (click)="generateCreateForm()">
                 <i class="fa fa-plus"></i>
         </button>
     </div>
-    <app-metric-chart-create *ngIf="createMode" class="col-md-12"></app-metric-chart-create>
+    <app-metric-chart-create *ngIf="createMode" class="col-md-12"
+                             (createdEvent)="chartCreatedEventHandle($event)"
+                             (cancelCreateEvent)="cancelCreate()"></app-metric-chart-create>
 </div>
 
 <div class="row" *ngFor="let index of charts; let i = index; let even = even;">
     <div class="col-6" *ngIf="even">
-        <app-metric-chart [chartInfo]="charts[i]"></app-metric-chart>
+        <app-metric-chart [showButtons]="true" [chartInfo]="charts[i]"></app-metric-chart>
     </div>
     <div class="col-6" *ngIf="even && charts[i+1]">
-        <app-metric-chart [chartInfo]="charts[i+1]"></app-metric-chart>
-    </div>    
+        <app-metric-chart [showButtons]="true" [chartInfo]="charts[i+1]"></app-metric-chart>
+    </div>
 </div>
