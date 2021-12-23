@@ -6,5 +6,5 @@ export class MetricChart {
         public chartType?: string,
         public borderColor?: string,
         public fillColor?: string
-    ){};
+    ) {};
 }

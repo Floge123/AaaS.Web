@@ -1,8 +1,9 @@
-import { Component, Input, OnInit, ViewChild, ElementRef } from '@angular/core';
+import {Component, Input, OnInit, ViewChild, ElementRef, Output, EventEmitter} from '@angular/core';
 import { MetricChart } from 'app/shared/domain/metric-chart';
 import { MetricService } from 'app/shared/services/metric.service';
 import { environment } from 'environments/environment.prod';
 import Chart from 'chart.js';
+import {Metric} from '../../shared/domain/metric';
 
 @Component({
   selector: 'app-metric-chart',
@@ -12,6 +13,12 @@ import Chart from 'chart.js';
 export class MetricChartComponent implements OnInit {
   @Input() chartInfo: MetricChart;
   @Input() showButtons: boolean;
+
+  @Output() deleteChartEvent = new EventEmitter<MetricChart>();
+  @Output() openDetailsEvent = new EventEmitter<any>();
+  @Output() editChartEvent = new EventEmitter<MetricChart>();
+
+  private metrics: Metric[] = [];
 
   @ViewChild('chart')
   private chartRef: ElementRef;
@@ -89,19 +96,20 @@ export class MetricChartComponent implements OnInit {
           },
         }
       });
+      this.metrics = res;
     });
   }
 
   openDetails() {
-
+    this.openDetailsEvent.emit({chart: this.chartInfo, metrics: this.metrics});
   }
 
   deleteChart() {
+    this.deleteChartEvent.emit(this.chartInfo);
     localStorage.removeItem(`${environment.storagePrefix}${this.chartInfo.chartName}`);
-    window.location.reload();
   }
 
   editChart() {
-
+    this.editChartEvent.emit(this.chartInfo);
   }
 }

@@ -6,7 +6,8 @@
         </div>
     </div>
     <div class="card-body text-center">
-        <h2>New Chart</h2>
+        <h2 *ngIf="!editMode">New Chart</h2>
+        <h2 *ngIf="editMode">Edit Chart - {{editChartName}}</h2>
         <form [formGroup]="myForm"
           (ngSubmit)="submitForm()">
         <div class="row form-group mx-2">
@@ -46,7 +47,10 @@
                 <div class="col-4 text-center">
                     <button type="button" class="btn btn-danger" (click)="cancelEdit()">Cancel</button>
                 </div>
-                <div class="col-4 text-center">
+                <div *ngIf="editMode" class="col-4 text-center">
+                  <button type="submit" class="btn btn-success" [disabled]="myForm.invalid">Edit</button>
+                </div>
+                <div *ngIf="!editMode" class="col-4 text-center">
                     <button type="submit" class="btn btn-success" [disabled]="myForm.invalid">Create</button>
                 </div>
             </div>

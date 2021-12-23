@@ -1,0 +1,25 @@
+<div class="card">
+  <button class="btn btn-circle btn-circle-sm m-2"
+          (click)="closeDetails()">
+    <i class="fa fa-close"></i>
+  </button>
+  <app-metric-chart [showButtons]="false" [chartInfo]="chart"></app-metric-chart>
+  <dx-data-grid class="w-100"
+                [dataSource]="metrics"
+                [allowColumnReordering]="true"
+                [allowColumnResizing]="true"
+                [columnAutoWidth]="true"
+  >
+    <dxo-filter-row [visible]="true"></dxo-filter-row>
+    <dxo-search-panel [visible]="true"></dxo-search-panel>
+    <dxo-paging [pageSize]="6"></dxo-paging>
+    <dxi-column dataField="timestamp" sortOrder="desc" class="text-center"></dxi-column>
+    <dxi-column dataField="name" class="text-center"></dxi-column>
+    <dxi-column dataField="clientId" class="text-center"></dxi-column>
+    <dxi-column dataField="type" class="text-center"></dxi-column>
+    <dxi-column dataField="value" class="text-center"></dxi-column>
+
+  </dx-data-grid>
+</div>
+
+

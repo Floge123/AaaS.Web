@@ -1,4 +1,4 @@
-import { MetricType } from "./metric-type";
+import { MetricType } from './metric-type';
 
 export class Metric {
     constructor(

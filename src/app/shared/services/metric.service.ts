@@ -16,11 +16,6 @@ export class MetricService {
   private errorHandler(error: Error | any): Observable<any> {
     console.log(error);
     return of(null);
-  } 
-
-  getAll(appKey: string): Observable<Metric[]> {
-    return this.http.get<Metric[]>(`${environment.server}/Metric?appKey=${appKey}`)
-      .pipe(catchError(this.errorHandler));
   }
 
   getByFilter(appKey: string, name?: string, clientId?: string): Observable<Metric[]> {
@@ -29,16 +24,16 @@ export class MetricService {
         return this.http.get<Metric[]>(`${environment.server}/Metric?appKey=${appKey}`)
           .pipe(catchError(this.errorHandler));
       }
-      //filter for clientId
+      // filter for clientId
       return this.http.get<Metric[]>(`${environment.server}/Metric?appKey=${appKey}&clientId=${clientId}`)
         .pipe(catchError(this.errorHandler));
     }
     if (clientId === null) {
-      //filter for name
+      // filter for name
       return this.http.get<Metric[]>(`${environment.server}/Metric?appKey=${appKey}&metricName=${name}`)
         .pipe(catchError(this.errorHandler));
     }
-    //filter for both
+    // filter for both
     return this.http.get<Metric[]>(`${environment.server}/Metric?appKey=${appKey}&metricName=${name}&clientId=${clientId}`)
       .pipe(catchError(this.errorHandler));
   }

@@ -26,7 +26,8 @@
             "styles": [
               "node_modules/bootstrap/scss/bootstrap.scss",
               "src/assets/scss/paper-dashboard.scss",
-              "node_modules/ngx-toastr/toastr.css"
+              "node_modules/ngx-toastr/toastr.css",
+              "node_modules/devextreme/dist/css/dx.light.css"
             ],
             "scripts": []
           },
@@ -53,7 +54,8 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "pd-free-angularcli:build"
+            "browserTarget": "pd-free-angularcli:build",
+            "proxyConfig": "src/proxy.conf.json"
           },
           "configurations": {
             "production": {
