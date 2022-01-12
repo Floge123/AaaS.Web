@@ -1,0 +1,22 @@
+<div class="card">
+  <div class="m-1">
+    <app-logs-search (logsFetched)="refresh($event)"></app-logs-search>
+    <dx-data-grid class="w-100"
+                  [dataSource]="logs"
+                  [allowColumnReordering]="true"
+                  [allowColumnResizing]="true"
+                  [columnAutoWidth]="true"
+    >
+      <dxo-filter-row [visible]="true"></dxo-filter-row>
+      <dxo-paging [pageSize]="30"></dxo-paging>
+      <dxi-column dataField="timestamp" sortOrder="desc" class="text-center"></dxi-column>
+      <dxi-column dataField="name" class="text-center"></dxi-column>
+      <dxi-column dataField="clientId" class="text-center"></dxi-column>
+      <dxi-column dataField="category" class="text-center"></dxi-column>
+      <dxi-column dataField="message" class="text-center"></dxi-column>
+
+    </dx-data-grid>
+  </div>
+
+</div>
+

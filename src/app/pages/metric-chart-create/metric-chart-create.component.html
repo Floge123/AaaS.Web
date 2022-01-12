@@ -12,16 +12,21 @@
           (ngSubmit)="submitForm()">
         <div class="row form-group mx-2">
             <div class="input-group">
-                <input type="text" class="form-control text-center" formControlName="chartName" placeholder="Enter chartname">
-                <div *ngIf="errors.chartName">
-                    {{ errors.chartName }}
-                </div>
+                <input type="text" class="form-control text-center row" formControlName="chartName" placeholder="Enter chartname">
+            </div>
+            <div *ngIf="errors.chartName" class="mx-auto mb-1 alert-danger">
+              {{ errors.chartName }}
+            </div>
+
+            <div class="input-group">
+                <select class="form-control text-center" formControlName="metricName">
+                  <option *ngFor="let name of metricNames" value="{{name}}">{{name}}</option>
+                </select>
             </div>
             <div class="input-group">
-                <input type="text" class="form-control text-center" formControlName="metricName" placeholder="Enter metricname (optional)">
-            </div>
-            <div class="input-group">
-                <input type="text" class="form-control text-center" formControlName="clientId" placeholder="Enter clientId (optional)">
+                <select class="form-control text-center" formControlName="clientId">
+                  <option *ngFor="let cid of clientInstanceIds" value="{{cid}}">{{cid}}</option>
+                </select>
             </div>
             <div class="row w-100 ml-1">
                 <div class="col-4 text-center">Border color</div>

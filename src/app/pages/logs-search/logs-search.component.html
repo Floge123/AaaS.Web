@@ -1,0 +1,7 @@
+<div [ngClass]="{ loading: isLoading }">
+  <div class="input-box">
+    <i class="fa fa-search"></i>
+    <input type="text" class="form-control" placeholder="Search ..."
+           #searchTerm (keyup)="keyup.emit(searchTerm.value)">
+  </div>
+</div>

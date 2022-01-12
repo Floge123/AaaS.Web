@@ -15,7 +15,9 @@ import { MetricChartComponent } from './pages/metric-chart/metric-chart.componen
 import { MetricChartCreateComponent } from './pages/metric-chart-create/metric-chart-create.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MetricDetailsComponent } from './pages/metric-details/metric-details.component';
+import { LogsComponent} from './pages/logs/logs.component';
 import {DxDataGridModule} from 'devextreme-angular';
+import { LogsSearchComponent } from './pages/logs-search/logs-search.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +26,8 @@ import {DxDataGridModule} from 'devextreme-angular';
     MetricChartComponent,
     MetricChartCreateComponent,
     MetricDetailsComponent,
+    LogsComponent,
+    LogsSearchComponent
   ],
   imports: [
     BrowserAnimationsModule,

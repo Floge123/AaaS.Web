@@ -9,32 +9,36 @@ import { Metric } from '../domain/metric';
   providedIn: 'root'
 })
 export class MetricService {
-  metrics: Metric[] = [];
+
+  private static errorHandler(error: Error | any): Observable<any> {
+    console.log(error);
+    return of(null);
+  }
 
   constructor(private http: HttpClient) { }
 
-  private errorHandler(error: Error | any): Observable<any> {
-    console.log(error);
-    return of(null);
+  getNames(appKey: string): Observable<string[]> {
+    return this.http.get<string[]>(`${environment.server}/Metric/Names?appKey=${appKey}`)
+      .pipe(catchError(MetricService.errorHandler));
   }
 
   getByFilter(appKey: string, name?: string, clientId?: string): Observable<Metric[]> {
     if (name === null) {
       if (clientId === null) {
         return this.http.get<Metric[]>(`${environment.server}/Metric?appKey=${appKey}`)
-          .pipe(catchError(this.errorHandler));
+          .pipe(catchError(MetricService.errorHandler));
       }
       // filter for clientId
       return this.http.get<Metric[]>(`${environment.server}/Metric?appKey=${appKey}&clientId=${clientId}`)
-        .pipe(catchError(this.errorHandler));
+        .pipe(catchError(MetricService.errorHandler));
     }
     if (clientId === null) {
       // filter for name
       return this.http.get<Metric[]>(`${environment.server}/Metric?appKey=${appKey}&metricName=${name}`)
-        .pipe(catchError(this.errorHandler));
+        .pipe(catchError(MetricService.errorHandler));
     }
     // filter for both
     return this.http.get<Metric[]>(`${environment.server}/Metric?appKey=${appKey}&metricName=${name}&clientId=${clientId}`)
-      .pipe(catchError(this.errorHandler));
+      .pipe(catchError(MetricService.errorHandler));
   }
 }

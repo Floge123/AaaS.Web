@@ -1,9 +1,10 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MetricChart } from 'app/shared/domain/metric-chart';
-import Chart from 'chart.js';
 import { environment } from 'environments/environment.prod';
 import { MetricCCErrorMessages } from './metric-chart-create-error-messages';
+import {MetricService} from '../../shared/services/metric.service';
+import {ClientInstanceService} from '../../shared/services/client-instance.service';
 
 @Component({
   selector: 'app-metric-chart-create',
@@ -12,6 +13,9 @@ import { MetricCCErrorMessages } from './metric-chart-create-error-messages';
 })
 export class MetricChartCreateComponent implements OnInit {
   myForm!: FormGroup;
+  metricNames: string[];
+  clientInstanceIds: string[];
+
   @Input() chartInfo: MetricChart;
   errors: { [key: string]: string } = {};
   editMode = true;
@@ -22,7 +26,10 @@ export class MetricChartCreateComponent implements OnInit {
   @Output() createdEvent = new EventEmitter<any>();
   @Output() cancelCreateEvent = new EventEmitter<any>();
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder,
+              private metricService: MetricService,
+              private clientInstanceService: ClientInstanceService
+  ) { }
 
   ngOnInit(): void {
     if (!this.chartInfo) {
@@ -31,6 +38,8 @@ export class MetricChartCreateComponent implements OnInit {
     } else {
       this.editChartName = this.chartInfo.chartName;
     }
+    this.metricService.getNames(`${environment.appKey}`).subscribe(res => this.metricNames = res);
+    this.clientInstanceService.getAllInstances(`${environment.appKey}`).subscribe(res => this.clientInstanceIds = res);
 
     this.initForm();
   }
@@ -75,6 +84,12 @@ export class MetricChartCreateComponent implements OnInit {
       localStorage.removeItem(`${environment.storagePrefix}${this.editChartName}`);
       this.editedEvent.emit({old: this.editChartName, new: this.chartInfo});
     } else {
+      const temp: MetricChart = this.myForm.value;
+      if (localStorage.getItem(`${environment.storagePrefix}${temp.chartName}`)) {
+        this.errors['chartName'] = 'Name already exists, has to be unique';
+        return;
+      }
+
       this.createdEvent.emit(this.chartInfo);
     }
     localStorage.setItem(`${environment.storagePrefix}${this.chartInfo.chartName}`, JSON.stringify(this.chartInfo));

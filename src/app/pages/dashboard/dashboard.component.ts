@@ -1,18 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Metric} from 'app/shared/domain/metric';
 import {MetricChart} from 'app/shared/domain/metric-chart';
-import {DetectorService} from '../../shared/services/detector.service';
-import {Detector} from '../../shared/domain/detector/detector';
-import {DetectorType} from '../../shared/domain/detector/detector-type';
-import {Action} from '../../shared/domain/action/action';
-import {ActionType} from '../../shared/domain/action/action-type';
-import {AggregationOperation} from '../../shared/domain/detector/aggregation-operation';
-import {ComparisonOperation} from '../../shared/domain/detector/comparison-operation';
 import {environment} from '../../../environments/environment.prod';
-import {MinMaxDetector} from '../../shared/domain/detector/min-max-detector';
-import {SlidingWindowDetector} from '../../shared/domain/detector/sliding-window-detector';
-import {EmailAction} from '../../shared/domain/action/email-action';
-
 
 @Component({
     selector: 'dashboard-cmp',
@@ -21,7 +10,7 @@ import {EmailAction} from '../../shared/domain/action/email-action';
     styleUrls: ['./dashboard.component.css']
 })
 
-export class DashboardComponent implements OnInit{
+export class DashboardComponent implements OnInit {
   charts: MetricChart[] = [];
 
   createMode = false;
@@ -29,7 +18,7 @@ export class DashboardComponent implements OnInit{
   focusedChart: MetricChart;
   detailModeMetrics: Metric[];
 
-  constructor(private dService: DetectorService) {}
+  constructor() {}
 
   ngOnInit() {
     for (let i = 0; i < localStorage.length; i++) {
