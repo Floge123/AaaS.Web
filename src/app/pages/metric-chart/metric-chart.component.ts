@@ -1,9 +1,10 @@
-import {Component, Input, OnInit, ViewChild, ElementRef, Output, EventEmitter} from '@angular/core';
-import { MetricChart } from 'app/shared/domain/metric-chart';
-import { MetricService } from 'app/shared/services/metric.service';
-import { environment } from 'environments/environment.prod';
+import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {MetricChart} from 'app/shared/domain/metric-chart';
+import {MetricService} from 'app/shared/services/metric.service';
+import {environment} from 'environments/environment.prod';
 import Chart from 'chart.js';
 import {Metric} from '../../shared/domain/metric';
+import {MetricType} from '../../shared/domain/metric-type';
 
 @Component({
   selector: 'app-metric-chart',
@@ -27,72 +28,43 @@ export class MetricChartComponent implements OnInit {
 
   ngOnInit(): void {
     this.metricService.getByFilter(`${environment.appKey}`, this.chartInfo.metricName, this.chartInfo.clientId).subscribe(res => {
+      const mType = res.map(m => m.type).pop();
       new Chart(this.chartRef.nativeElement, {
         type: this.chartInfo.chartType,
 
         data: {
           labels: res.map(m => m.timestamp),
           datasets: [{
+              label: `${this.chartInfo.metricName}${mType.toString() === 'IntervalMetric' ? ' in ms' : ''}`,
+              fill: this.chartInfo.fillColor !== '#000000',
               borderColor: this.chartInfo.borderColor,
               backgroundColor: this.chartInfo.fillColor,
-              pointRadius: 0,
-              pointHoverRadius: 0,
-              borderWidth: 3,
               data: res.map(m => m.value)
             },
           ]
         },
         options: {
-          drawBorder: true,
           responsive: true,
           legend: {
-            display: false
+            display: true,
           },
 
           tooltips: {
-            enabled: false
+            enabled: true
           },
 
           scales: {
-            y: [{
+            yAxis: {
               ticks: {
-                fontColor: '#9f9f9f',
-                beginAtZero: false,
-                maxTicksLimit: 5,
-              },
-              grid: {
-                display: true,
-                drawBorder: true,
-                drawOnChartArea: true,
-                drawTicks: true,
-              },
-              gridLines: {
-                drawBorder: true,
-                zeroLineColor: '#ccc',
-                color: 'rgb(255,255,255)'
+                callback: function(value, index, ticks) {
+                  return value + '(ms)';
+                }
               }
+            },
 
-            }],
+            xAxis: {
 
-            x: [{
-              barPercentage: 1.6,
-              grid: {
-                display: true,
-                drawBorder: true,
-                drawOnChartArea: true,
-                drawTicks: true,
-              },
-              gridLines: {
-                drawBorder: true,
-                color: 'rgba(255,255,255,0.1)',
-                zeroLineColor: 'gray',
-                display: true,
-              },
-              ticks: {
-                padding: 20,
-                fontColor: '#9f9f9f'
-              }
-            }]
+            }
           },
         }
       });

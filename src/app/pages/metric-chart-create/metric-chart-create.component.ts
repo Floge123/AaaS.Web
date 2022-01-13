@@ -80,6 +80,13 @@ export class MetricChartCreateComponent implements OnInit {
   }
 
   submitForm() {
+    if (!this.chartInfo.fillColor) {
+      this.chartInfo.fillColor = '#000000';
+    }
+    if (!this.chartInfo.borderColor) {
+      this.chartInfo.borderColor = '#000000';
+    }
+    console.log(this.chartInfo)
     if (this.editMode) {
       localStorage.removeItem(`${environment.storagePrefix}${this.editChartName}`);
       this.editedEvent.emit({old: this.editChartName, new: this.chartInfo});

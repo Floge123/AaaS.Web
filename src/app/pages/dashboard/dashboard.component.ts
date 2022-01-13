@@ -48,7 +48,6 @@ export class DashboardComponent implements OnInit {
 
   chartCreatedEventHandle(event: MetricChart) {
     this.createMode = false;
-    this.deleteChart(this.charts.filter(c => c.chartName === event.chartName).pop());
     this.charts.push(event);
     this.sortCharts();
     this.focusedChart = null;
@@ -82,6 +81,7 @@ export class DashboardComponent implements OnInit {
 
   closeDetail() {
     this.detailMode = false;
+    this.focusedChart = null;
   }
 
 
