@@ -2,7 +2,8 @@ import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} f
 import {MetricChart} from 'app/shared/domain/metric-chart';
 import {MetricService} from 'app/shared/services/metric.service';
 import {environment} from 'environments/environment.prod';
-import Chart from 'chart.js';
+import Chart from 'chart.js/auto'
+import zoomPlugin from 'chartjs-plugin-zoom'
 import {Metric} from '../../shared/domain/metric';
 import {MetricType} from '../../shared/domain/metric-type';
 
@@ -24,13 +25,16 @@ export class MetricChartComponent implements OnInit {
   @ViewChild('chart')
   private chartRef: ElementRef;
 
-  constructor(private metricService: MetricService) { }
+  constructor(private metricService: MetricService) {
+    Chart.register(zoomPlugin);
+  }
 
   ngOnInit(): void {
     this.metricService.getByFilter(`${environment.appKey}`, this.chartInfo.metricName, this.chartInfo.clientId).subscribe(res => {
       const mType = res.map(m => m.type).pop();
       new Chart(this.chartRef.nativeElement, {
-        type: this.chartInfo.chartType,
+        // in new versions, I have to explicitly say the string here
+        type: this.chartInfo.chartType === 'bar' ? 'bar' : 'line',
 
         data: {
           labels: res.map(m => m.timestamp),
@@ -44,28 +48,27 @@ export class MetricChartComponent implements OnInit {
           ]
         },
         options: {
-          responsive: true,
-          legend: {
-            display: true,
-          },
-
-          tooltips: {
-            enabled: true
-          },
-
-          scales: {
-            yAxis: {
-              ticks: {
-                callback: function(value, index, ticks) {
-                  return value + '(ms)';
-                }
-              }
+          plugins: {
+            legend: {
+              display: true,
             },
-
-            xAxis: {
-
+            zoom: {
+              pan: {
+                enabled: true,
+                mode: 'x'
+              },
+              zoom: {
+                wheel: {
+                  enabled: true,
+                },
+                pinch: {
+                  enabled: true
+                },
+                mode: 'x',
+              }
             }
           },
+          responsive: true,
         }
       });
       this.metrics = res;

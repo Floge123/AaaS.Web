@@ -18,6 +18,11 @@ import { MetricDetailsComponent } from './pages/metric-details/metric-details.co
 import { LogsComponent} from './pages/logs/logs.component';
 import {DxDataGridModule} from 'devextreme-angular';
 import { LogsSearchComponent } from './pages/logs-search/logs-search.component';
+import { DetectorListComponent } from './pages/detector-list/detector-list.component';
+import {DurationFormatPipe} from './pipes/duration-format.pipe';
+import {BoolEnabledPipe} from './pipes/bool-enabled.pipe';
+import { DetectorToggleButtonComponent } from './pages/detector-toogle-button/detector-toggle-button.component';
+import { DetectorDetailsComponent } from './pages/detector-details/detector-details.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +32,12 @@ import { LogsSearchComponent } from './pages/logs-search/logs-search.component';
     MetricChartCreateComponent,
     MetricDetailsComponent,
     LogsComponent,
-    LogsSearchComponent
+    LogsSearchComponent,
+    DetectorListComponent,
+    DurationFormatPipe,
+    BoolEnabledPipe,
+    DetectorToggleButtonComponent,
+    DetectorDetailsComponent
   ],
   imports: [
     BrowserAnimationsModule,

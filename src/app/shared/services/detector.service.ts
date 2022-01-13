@@ -18,10 +18,10 @@ export class DetectorService {
   }
 
   update(detector: Detector): Observable<any> {
-    console.log("detector")
-    console.log(detector);
-    return this.http.put<any>(`${environment.server}/Detector`, detector)
+    let res = this.http.put<any>(`${environment.server}/Detector`, detector)
       .pipe(catchError(this.errorHandler));
+    res.subscribe()
+    return res;
   }
 
   get(appKey: string, name?: string): Observable<Detector[]> {

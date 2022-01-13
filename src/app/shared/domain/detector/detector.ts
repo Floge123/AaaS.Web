@@ -5,13 +5,13 @@ import {ComparisonOperation} from './comparison-operation';
 
 export abstract class Detector {
   protected constructor(
-    private id: number,
-    private executionInterval: number,
-    private type: DetectorType,
-    private appKey: string,
-    private telemetricName: string,
-    private enabled: boolean,
-    private action: Action
+    public id: number,
+    public executionInterval: Number,
+    public type: DetectorType,
+    public appKey: string,
+    public telemetricName: string,
+    public enabled: boolean,
+    public action: Action
   ) {
   }
 }

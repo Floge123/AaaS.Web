@@ -1,0 +1,4 @@
+::ng-deep #gridContainer .myClass {
+  vertical-align: middle !important;
+  margin: 0;
+}

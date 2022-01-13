@@ -1,0 +1,38 @@
+<app-detector-details *ngIf="showDetails"></app-detector-details>
+
+<div class="card">
+  <div class="m-1">
+    <dx-data-grid class="w-100"
+                  id="gridContainer"
+                  [customizeColumns]="customizeColumns"
+                  [dataSource]="detectors"
+                  [allowColumnReordering]="true"
+                  [allowColumnResizing]="true"
+                  [columnAutoWidth]="true"
+    >
+      <dxo-filter-row [visible]="true"></dxo-filter-row>
+      <dxo-paging [pageSize]="30"></dxo-paging>
+      <dxi-column dataField="telemetricName" sortOrder="desc"></dxi-column>
+      <dxi-column dataField="type"></dxi-column>
+      <dxi-column dataField="action.type"></dxi-column>
+      <dxi-column dataField="executionInterval" cellTemplate="intervalCell"></dxi-column>
+      <div *dxTemplate="let cData of 'intervalCell'">
+        {{cData.value | durationFormat: 'ms':'hhmmss'}}
+      </div>
+      <dxi-column dataField="enabled" caption="Toogle" cellTemplate="enabledC"></dxi-column>
+      <div *dxTemplate="let cData of 'enabledC'">
+        <app-detector-toggle-button
+          [detectorId]="cData.data.id"
+          [state]="cData.data.enabled"
+          (toggledEventEmitter)="handleToggleEvent($event)"
+        ></app-detector-toggle-button>
+      </div>
+      <dxi-column caption="Details" cellTemplate="detailsC" alignment="center"></dxi-column>
+      <div *dxTemplate="let cData of 'detailsC'">
+        <button type="button" class="btn btn-info" (click)="openDetails()">Details</button>
+      </div>
+
+    </dx-data-grid>
+  </div>
+
+</div>
