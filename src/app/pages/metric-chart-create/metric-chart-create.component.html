@@ -1,5 +1,5 @@
 <div class="card card-3">
-    <div class="card-heading text-center">
+    <div class="card-heading">
         <app-metric-chart *ngIf="showPreview" [showButtons]="false" [chartInfo]="chartInfo"></app-metric-chart>
         <div  *ngIf="!showPreview">
             Preview will be shown here.
@@ -10,65 +10,65 @@
         <h2 *ngIf="editMode">Edit Chart - {{editChartName}}</h2>
         <form [formGroup]="myForm"
           (ngSubmit)="submitForm()">
-        <div class="row form-group mx-2">
-            <div class="input-group">
-                <input type="text" class="form-control text-center row" formControlName="chartName" placeholder="Enter chartname">
-            </div>
-            <div *ngIf="errors.chartName" class="mx-auto mb-1 alert-danger">
-              {{ errors.chartName }}
-            </div>
+          <div class="row form-group mx-2">
+              <div class="input-group">
+                  <input type="text" class="form-control text-center row" formControlName="chartName" placeholder="Enter chartname">
+              </div>
+              <div *ngIf="errors.chartName" class="mx-auto mb-1 alert-danger">
+                {{ errors.chartName }}
+              </div>
 
-            <div class="input-group">
-                <select class="form-control text-center" formControlName="metricName">
-                  <option *ngFor="let name of metricNames" value="{{name}}">{{name}}</option>
-                </select>
-            </div>
-            <div class="input-group">
-                <select class="form-control text-center" formControlName="clientId">
-                  <option *ngFor="let cid of clientInstanceIds" value="{{cid}}">{{cid}}</option>
-                </select>
-            </div>
-            <div class="row w-100 ml-1">
-                <div class="col-4 text-center">Border color</div>
-                <div class="col-4 text-center">Copy Color Over</div>
-                <div class="col-4 text-center">Fill color</div>
-            </div>
-            <div class="input-group">
-                <input type="color" class="form-control text-center border-right" formControlName="borderColor" placeholder="Enter border color">
-                <button type="button" class="btn btn-success btn-circle btn-circle-sm m-1"
-                        (click)="useBorderColor()">
-                  <i class='fa fa-arrow-circle-right'></i>
-                </button>
-                <button type="button" class="btn btn-success btn-circle btn-circle-sm m-1"
-                        (click)="useFillColor()">
-                  <i class='fa fa-arrow-circle-left'></i>
-                </button>
-                <input type="color" class="form-control text-center border-left" formControlName="fillColor" placeholder="Enter fill color">
-            </div>
-            <div class="row w-100 ml-1">
-                <div class="col-12 text-center">Chart Type</div>
-            </div>
-            <div class="input-group">
-                <select class="form-control text-center" formControlName="chartType">
-                    <option>line</option>
-                    <option>bar</option>
-                </select>
-            </div>
-            <div class="row w-100 ml-1">
-                <div class="col-4 text-center">
-                    <button type="button" class="btn" (click)="createPreview()" [disabled]="myForm.invalid">Show Preview</button>
-                </div>
-                <div class="col-4 text-center">
-                    <button type="button" class="btn btn-danger" (click)="cancelEdit()">Cancel</button>
-                </div>
-                <div *ngIf="editMode" class="col-4 text-center">
-                  <button type="submit" class="btn btn-success" [disabled]="myForm.invalid">Edit</button>
-                </div>
-                <div *ngIf="!editMode" class="col-4 text-center">
-                    <button type="submit" class="btn btn-success" [disabled]="myForm.invalid">Create</button>
-                </div>
-            </div>
-        </div>
-    </form>
+              <div class="input-group">
+                  <select class="form-control text-center" formControlName="metricName">
+                    <option *ngFor="let name of metricNames" value="{{name}}">{{name}}</option>
+                  </select>
+              </div>
+              <div class="input-group">
+                  <select class="form-control text-center" formControlName="clientId">
+                    <option *ngFor="let cid of clientInstanceIds" value="{{cid}}">{{cid}}</option>
+                  </select>
+              </div>
+              <div class="row w-100 ml-1">
+                  <div class="col-4 text-center">Border color</div>
+                  <div class="col-4 text-center">Copy Color Over</div>
+                  <div class="col-4 text-center">Fill color</div>
+              </div>
+              <div class="input-group">
+                  <input type="color" class="form-control text-center border-right" formControlName="borderColor" placeholder="Enter border color">
+                  <button type="button" class="btn btn-success btn-circle btn-circle-sm m-1"
+                          (click)="useBorderColor()">
+                    <i class='fa fa-arrow-circle-right'></i>
+                  </button>
+                  <button type="button" class="btn btn-success btn-circle btn-circle-sm m-1"
+                          (click)="useFillColor()">
+                    <i class='fa fa-arrow-circle-left'></i>
+                  </button>
+                  <input type="color" class="form-control text-center border-left" formControlName="fillColor" placeholder="Enter fill color">
+              </div>
+              <div class="row w-100 ml-1">
+                  <div class="col-12 text-center">Chart Type</div>
+              </div>
+              <div class="input-group">
+                  <select class="form-control text-center" formControlName="chartType">
+                      <option>line</option>
+                      <option>bar</option>
+                  </select>
+              </div>
+              <div class="row w-100 ml-1">
+                  <div class="col-4 text-center">
+                      <button type="button" class="btn" (click)="createPreview()" [disabled]="myForm.invalid">Show Preview</button>
+                  </div>
+                  <div class="col-4 text-center">
+                      <button type="button" class="btn btn-danger" (click)="cancelEdit()">Cancel</button>
+                  </div>
+                  <div *ngIf="editMode" class="col-4 text-center">
+                    <button type="submit" class="btn btn-success" [disabled]="myForm.invalid">Edit</button>
+                  </div>
+                  <div *ngIf="!editMode" class="col-4 text-center">
+                      <button type="submit" class="btn btn-success" [disabled]="myForm.invalid">Create</button>
+                  </div>
+              </div>
+          </div>
+      </form>
     </div>
 </div>

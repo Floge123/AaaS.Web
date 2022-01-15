@@ -1,4 +1,4 @@
 export enum DetectorType {
-  MinMaxDetector,
-  SlidingWindowDetector
+  MinMaxDetector = 'MinMaxDetector',
+  SlidingWindowDetector = 'SlidingWindowDetector'
 }

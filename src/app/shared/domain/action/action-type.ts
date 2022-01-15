@@ -1,4 +1,4 @@
 export enum ActionType {
-  WebHookAction,
-  MailAction
+  WebHookAction = 'WebHookAction',
+  MailAction = 'MailAction'
 }

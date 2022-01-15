@@ -13,10 +13,11 @@ import {ClientInstanceService} from '../../shared/services/client-instance.servi
 })
 export class MetricChartCreateComponent implements OnInit {
   myForm!: FormGroup;
-  metricNames: string[];
-  clientInstanceIds: string[];
+  metricNames: string[] = [];
+  clientInstanceIds: string[] = [];
 
   @Input() chartInfo: MetricChart;
+  unselectString = '----';
   errors: { [key: string]: string } = {};
   editMode = true;
   editChartName: string;
@@ -38,9 +39,10 @@ export class MetricChartCreateComponent implements OnInit {
     } else {
       this.editChartName = this.chartInfo.chartName;
     }
-    this.metricService.getNames(`${environment.appKey}`).subscribe(res => this.metricNames = res);
-    this.clientInstanceService.getAllInstances(`${environment.appKey}`).subscribe(res => this.clientInstanceIds = res);
-
+    this.metricNames.push(this.unselectString);
+    this.clientInstanceIds.push(this.unselectString);
+    this.metricService.getNames(`${environment.appKey}`).subscribe(res => this.metricNames.push(...res));
+    this.clientInstanceService.getAllInstances(`${environment.appKey}`).subscribe(res => this.clientInstanceIds.push(...res));
     this.initForm();
   }
 
@@ -50,11 +52,17 @@ export class MetricChartCreateComponent implements OnInit {
       metricName: this.chartInfo.metricName,
       clientId: this.chartInfo.clientId,
       borderColor: this.chartInfo.borderColor,
-      colorEqualCheck: true,
       fillColor: this.chartInfo.fillColor,
       chartType: [ this.chartInfo.chartType, Validators.required]
     })
+    console.log(this.chartInfo)
     this.myForm.statusChanges.subscribe(() => {
+      if (this.myForm.value.metricName === this.unselectString) {
+        this.myForm.value.metricName = undefined;
+      }
+      if (this.myForm.value.clientId === this.unselectString) {
+        this.myForm.value.clientId = undefined;
+      }
       this.showPreview = false;
       this.updateErrorMessages()
       if (this.myForm.valid) {
@@ -86,7 +94,6 @@ export class MetricChartCreateComponent implements OnInit {
     if (!this.chartInfo.borderColor) {
       this.chartInfo.borderColor = '#000000';
     }
-    console.log(this.chartInfo)
     if (this.editMode) {
       localStorage.removeItem(`${environment.storagePrefix}${this.editChartName}`);
       this.editedEvent.emit({old: this.editChartName, new: this.chartInfo});

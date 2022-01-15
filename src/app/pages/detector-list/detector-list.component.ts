@@ -13,6 +13,7 @@ import {DxDataGridComponent} from 'devextreme-angular';
 export class DetectorListComponent implements OnInit {
   detectors: Detector[] = [];
   showDetails = false;
+  detailedDetector: Detector;
 
   constructor(private detectorService: DetectorService) { }
 
@@ -36,7 +37,15 @@ export class DetectorListComponent implements OnInit {
     this.detectorService.update(affected);
   }
 
-  openDetails() {
+  openDetails(event) {
+    console.log(event)
+    this.detailedDetector = this.detectors.filter(d => d.id === event).pop();
+    console.log(this.detailedDetector)
     this.showDetails = true;
+  }
+
+  closeDetails() {
+    this.detailedDetector = null;
+    this.showDetails = false;
   }
 }

@@ -23,8 +23,8 @@ export class MetricService {
   }
 
   getByFilter(appKey: string, name?: string, clientId?: string): Observable<Metric[]> {
-    if (name === null) {
-      if (clientId === null) {
+    if (!name) {
+      if (!clientId) {
         return this.http.get<Metric[]>(`${environment.server}/Metric?appKey=${appKey}`)
           .pipe(catchError(MetricService.errorHandler));
       }
@@ -32,7 +32,7 @@ export class MetricService {
       return this.http.get<Metric[]>(`${environment.server}/Metric?appKey=${appKey}&clientId=${clientId}`)
         .pipe(catchError(MetricService.errorHandler));
     }
-    if (clientId === null) {
+    if (!clientId) {
       // filter for name
       return this.http.get<Metric[]>(`${environment.server}/Metric?appKey=${appKey}&metricName=${name}`)
         .pipe(catchError(MetricService.errorHandler));

@@ -1,4 +1,7 @@
-<app-detector-details *ngIf="showDetails"></app-detector-details>
+<app-detector-details *ngIf="showDetails"
+                      [detector]="detailedDetector"
+                      (closeEventEmitter)="closeDetails()"
+></app-detector-details>
 
 <div class="card">
   <div class="m-1">
@@ -29,7 +32,7 @@
       </div>
       <dxi-column caption="Details" cellTemplate="detailsC" alignment="center"></dxi-column>
       <div *dxTemplate="let cData of 'detailsC'">
-        <button type="button" class="btn btn-info" (click)="openDetails()">Details</button>
+        <app-detector-details-button [detectorId]="cData.data.id" (openDetailsEventEmitter)="openDetails($event)"></app-detector-details-button>
       </div>
 
     </dx-data-grid>

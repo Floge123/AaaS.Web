@@ -18,7 +18,7 @@ export class DetectorService {
   }
 
   update(detector: Detector): Observable<any> {
-    let res = this.http.put<any>(`${environment.server}/Detector`, detector)
+    const res = this.http.put<any>(`${environment.server}/Detector`, detector)
       .pipe(catchError(this.errorHandler));
     res.subscribe()
     return res;
