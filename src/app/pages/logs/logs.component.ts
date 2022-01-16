@@ -2,6 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {Log} from '../../shared/domain/log/log';
 import {LogService} from '../../shared/services/log.service';
 import {environment} from '../../../environments/environment.prod';
+import {AuthenticationService} from '../../shared/services/authentication.service';
 
 @Component({
     selector: 'logs-cmp',
@@ -12,11 +13,13 @@ import {environment} from '../../../environments/environment.prod';
 export class LogsComponent implements OnInit {
   @Input() logs: Log[];
 
-  constructor(private logService: LogService) { }
+  constructor(private logService: LogService, private authService: AuthenticationService) { }
 
   ngOnInit(): void {
-    this.logService.getByFilter(`${environment.appKey}`, '')
-      .subscribe(res => this.logs = res);
+    this.authService.appKey.subscribe(key => {
+      this.logService.getByFilter(key, '')
+        .subscribe(res => this.logs = res);
+    })
   }
 
   refresh(logs: Log[]) {

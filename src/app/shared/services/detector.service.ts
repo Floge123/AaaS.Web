@@ -32,4 +32,14 @@ export class DetectorService {
     return this.http.get<Detector[]>(`${environment.server}/Detector?appkey=${appKey}`)
       .pipe(catchError(this.errorHandler));
   }
+
+  delete(appKey: string, id: number): Observable<any> {
+    return this.http.delete(`${environment.server}/Detector/${id}?appkey=${appKey}`)
+      .pipe(catchError(this.errorHandler));
+  }
+
+  post(detector: Detector): Observable<Detector> {
+    return this.http.post(`${environment.server}/Detector`, detector)
+      .pipe(catchError(this.errorHandler));
+  }
 }

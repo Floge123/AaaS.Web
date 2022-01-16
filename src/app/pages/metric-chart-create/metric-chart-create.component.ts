@@ -5,6 +5,7 @@ import { environment } from 'environments/environment.prod';
 import { MetricCCErrorMessages } from './metric-chart-create-error-messages';
 import {MetricService} from '../../shared/services/metric.service';
 import {ClientInstanceService} from '../../shared/services/client-instance.service';
+import {AuthenticationService} from '../../shared/services/authentication.service';
 
 @Component({
   selector: 'app-metric-chart-create',
@@ -29,7 +30,8 @@ export class MetricChartCreateComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
               private metricService: MetricService,
-              private clientInstanceService: ClientInstanceService
+              private clientInstanceService: ClientInstanceService,
+              private authService: AuthenticationService
   ) { }
 
   ngOnInit(): void {
@@ -41,9 +43,11 @@ export class MetricChartCreateComponent implements OnInit {
     }
     this.metricNames.push(this.unselectString);
     this.clientInstanceIds.push(this.unselectString);
-    this.metricService.getNames(`${environment.appKey}`).subscribe(res => this.metricNames.push(...res));
-    this.clientInstanceService.getAllInstances(`${environment.appKey}`).subscribe(res => this.clientInstanceIds.push(...res));
-    this.initForm();
+    this.authService.appKey.subscribe(key => {
+      this.metricService.getNames(key).subscribe(res => this.metricNames.push(...res));
+      this.clientInstanceService.getAllInstances(key).subscribe(res => this.clientInstanceIds.push(...res));
+      this.initForm();
+    });
   }
 
   initForm() {
@@ -54,8 +58,7 @@ export class MetricChartCreateComponent implements OnInit {
       borderColor: this.chartInfo.borderColor,
       fillColor: this.chartInfo.fillColor,
       chartType: [ this.chartInfo.chartType, Validators.required]
-    })
-    console.log(this.chartInfo)
+    });
     this.myForm.statusChanges.subscribe(() => {
       if (this.myForm.value.metricName === this.unselectString) {
         this.myForm.value.metricName = undefined;

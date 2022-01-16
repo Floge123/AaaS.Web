@@ -4,6 +4,7 @@ import {DetectorService} from '../../shared/services/detector.service';
 import {environment} from '../../../environments/environment.prod';
 import {map} from 'rxjs/operators';
 import {DxDataGridComponent} from 'devextreme-angular';
+import {AuthenticationService} from '../../shared/services/authentication.service';
 
 @Component({
   selector: 'app-detector-list',
@@ -15,14 +16,19 @@ export class DetectorListComponent implements OnInit {
   showDetails = false;
   detailedDetector: Detector;
 
-  constructor(private detectorService: DetectorService) { }
+  constructor(private detectorService: DetectorService, private authService: AuthenticationService) { }
 
   ngOnInit(): void {
-    this.detectorService.get(`${environment.appKey}`, null)
-      .subscribe(res => {
-        this.detectors = res;
+    this.initDetectors();
+  }
 
-      });
+  initDetectors() {
+    this.authService.appKey.subscribe(key => {
+      this.detectorService.get(key, null)
+        .subscribe(res => {
+          this.detectors = res;
+        });
+    });
   }
 
   customizeColumns(columns) {
@@ -37,15 +43,36 @@ export class DetectorListComponent implements OnInit {
     this.detectorService.update(affected);
   }
 
+  openCreate() {
+    this.showDetails = true;
+  }
+
   openDetails(event) {
-    console.log(event)
     this.detailedDetector = this.detectors.filter(d => d.id === event).pop();
-    console.log(this.detailedDetector)
     this.showDetails = true;
   }
 
   closeDetails() {
     this.detailedDetector = null;
     this.showDetails = false;
+  }
+
+  editEventHandle(e) {
+    this.detectorService.update(e);
+    this.closeDetails();
+  }
+
+  createEventHandle(e) {
+    this.detectorService.post(e)
+      .subscribe(() => this.initDetectors());
+    this.closeDetails();
+  }
+
+  deleteDetector(e) {
+    this.authService.appKey.subscribe(key => {
+      this.detectorService.delete(key, e)
+        .subscribe(() => this.initDetectors());
+    });
+
   }
 }

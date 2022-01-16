@@ -8,27 +8,25 @@ import { Location} from '@angular/common';
     templateUrl: 'navbar.component.html'
 })
 
-export class NavbarComponent implements OnInit{
+export class NavbarComponent implements OnInit {
     private listTitles: any[];
     location: Location;
 
-    //@ViewChild("navbar-cmp", {static: false}) button;
-
-    constructor(location:Location) {
+    constructor(location: Location) {
         this.location = location;
     }
 
-    ngOnInit(){
+    ngOnInit() {
         this.listTitles = ROUTES.filter(listTitle => listTitle);
     }
 
-    getTitle(){
-      var titlee = this.location.prepareExternalUrl(this.location.path());
-      if(titlee.charAt(0) === '#'){
-          titlee = titlee.slice( 1 );
+    getTitle() {
+      let title = this.location.prepareExternalUrl(this.location.path());
+      if (title.charAt(0) === '#') {
+          title = title.slice( 1 );
       }
-      for(var item = 0; item < this.listTitles.length; item++){
-          if(this.listTitles[item].path === titlee){
+      for (let item = 0; item < this.listTitles.length; item++) {
+          if (this.listTitles[item].path === title) {
               return this.listTitles[item].title;
           }
       }

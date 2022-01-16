@@ -1,7 +1,19 @@
-<app-detector-details *ngIf="showDetails"
-                      [detector]="detailedDetector"
-                      (closeEventEmitter)="closeDetails()"
-></app-detector-details>
+<div class="row">
+  <div *ngIf="!showDetails" class="col-md-1 mx-auto my-4 text-center">
+    <button class="btn btn-success btn-circle btn-circle-sm m-1"
+            (click)="openCreate()">
+      <i class="fa fa-plus"></i>
+    </button>
+  </div>
+
+  <app-detector-details *ngIf="showDetails" class="col-md-12"
+                        [detector]="detailedDetector"
+                        (closeEventEmitter)="closeDetails()"
+                        (editedEventEmitter)="editEventHandle($event)"
+                        (createdEventEmitter)="createEventHandle($event)"
+  ></app-detector-details>
+</div>
+
 
 <div class="card">
   <div class="m-1">
@@ -22,6 +34,11 @@
       <div *dxTemplate="let cData of 'intervalCell'">
         {{cData.value | durationFormat: 'ms':'hhmmss'}}
       </div>
+      <dxi-column dataField="enabled" caption="Running?" cellTemplate="runningC"></dxi-column>
+      <div *dxTemplate="let cData of 'runningC'">
+        <i *ngIf="cData.data.enabled" class='fa fa-check-circle' style="font-size: 30px; color: green"></i>
+        <i *ngIf="!cData.data.enabled" class='fa fa-times-circle' style="font-size: 30px; color: red"></i>
+      </div>
       <dxi-column dataField="enabled" caption="Toogle" cellTemplate="enabledC"></dxi-column>
       <div *dxTemplate="let cData of 'enabledC'">
         <app-detector-toggle-button
@@ -34,6 +51,11 @@
       <div *dxTemplate="let cData of 'detailsC'">
         <app-detector-details-button [detectorId]="cData.data.id" (openDetailsEventEmitter)="openDetails($event)"></app-detector-details-button>
       </div>
+      <dxi-column caption="Delete" cellTemplate="deleteC" alignment="center"></dxi-column>
+      <div *dxTemplate="let cData of 'deleteC'">
+        <app-detector-delete-button [detectorId]="cData.data.id" (deleteEventEmitter)="deleteDetector($event)"></app-detector-delete-button>
+      </div>
+      app-detector-delete-button
 
     </dx-data-grid>
   </div>

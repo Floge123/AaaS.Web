@@ -9,7 +9,10 @@ import {ActionType} from '../../shared/domain/action/action-type';
 import {NgbTimeStruct} from '@ng-bootstrap/ng-bootstrap';
 import {AggregationOperation} from '../../shared/domain/detector/aggregation-operation';
 import {ComparisonOperation} from '../../shared/domain/detector/comparison-operation';
-import {MetricChart} from '../../shared/domain/metric-chart';
+import {DurationFormatPipe} from '../../pipes/duration-format.pipe';
+import {DetectorInitializer} from '../../shared/domain/detector/detector-initializer';
+import {Action} from '../../shared/domain/action/action';
+import {AuthenticationService} from '../../shared/services/authentication.service';
 
 @Component({
   selector: 'app-detector-details',
@@ -20,6 +23,7 @@ export class DetectorDetailsComponent implements OnInit {
   @Input() detector: Detector;
   @Output() closeEventEmitter = new EventEmitter();
   @Output() editedEventEmitter = new EventEmitter<Detector>();
+  @Output() createdEventEmitter = new EventEmitter<Detector>();
 
   myForm!: FormGroup;
   errors: { [key: string]: string } = {};
@@ -37,17 +41,21 @@ export class DetectorDetailsComponent implements OnInit {
   showWebActionConfig = false;
 
   constructor(private fb: FormBuilder,
-              private metricService: MetricService) { }
+              private metricService: MetricService,
+              private durationFormatter: DurationFormatPipe,
+              private detectorInitializer: DetectorInitializer,
+              private authService: AuthenticationService
+  ) { }
 
   ngOnInit(): void {
     if (!this.detector) {
       this.detector = new Detector();
+      this.detector.action = new Action();
       this.editMode = false;
     }
-
-    this.metricService.getNames(`${environment.appKey}`)
-      .subscribe(res => this.metricNames = res);
-    console.log(this.detector.type)
+    this.authService.appKey.subscribe(r => {
+      this.metricService.getNames(r).subscribe(res => this.metricNames = res);
+    });
     this.showMinMaxConfig = this.detector.type === DetectorType.MinMaxDetector;
     this.showSlidingWindowConfig = this.detector.type === DetectorType.SlidingWindowDetector;
     this.showMailActionConfig = this.detector.action.type === ActionType.MailAction;
@@ -56,6 +64,32 @@ export class DetectorDetailsComponent implements OnInit {
   }
 
   initForm() {
+    this.initComboBoxes();
+    this.myForm = this.fb.group({
+      metricName: [this.detector.telemetricName, Validators.required],
+      type: [this.detector.type, Validators.required],
+      aType: [this.detector.action.type, Validators.required],
+      interval: [this.durationFormatter.convertIntervalToTimeStruct(this.detector.executionInterval), Validators.required],
+      enabled: this.detector.enabled,
+      min: this.detector.minValue,
+      max: this.detector.maxValue,
+      outliers: this.detector.outlierCount,
+      aggT: this.detector.aggregationOp,
+      compT: this.detector.comparisonOp,
+      thresh: this.detector.threshold,
+      mail: this.detector.action.email,
+      web: this.detector.action.httpAddress
+    });
+
+    this.myForm.statusChanges.subscribe(() => {
+      this.updateErrorMessages()
+      if (this.myForm.valid) {
+        this.detectorInitializer.initialize(this.detector, this.myForm.value);
+      }
+    });
+  }
+
+  initComboBoxes() {
     this.detectorTypes = Object.keys(DetectorType).filter((type) => {
       return isNaN(Number(type));
     });
@@ -67,28 +101,6 @@ export class DetectorDetailsComponent implements OnInit {
     });
     this.comparisonTypes = Object.keys(ComparisonOperation).filter((type) => {
       return isNaN(Number(type));
-    });
-    this.myForm = this.fb.group({
-      metricName: [this.detector.telemetricName, Validators.required],
-      type: [this.detector.type, Validators.required],
-      aType: [this.detector.action.type, Validators.required],
-      interval: [this.convertIntervalToTimeStruct(this.detector.executionInterval), Validators.required],
-      min: this.detector.minValue,
-      max: this.detector.maxValue,
-      outliers: this.detector.outlierCount,
-      aggT: this.detector.aggregationOp,
-      compT: this.detector.comparisonOp,
-      thresh: this.detector.threshold,
-      mail: this.detector.action.email,
-      web: this.detector.action.httpAddress
-    });
-
-    console.log(this.errors)
-    this.myForm.statusChanges.subscribe(() => {
-      this.updateErrorMessages()
-      if (this.myForm.valid) {
-        this.detector = this.myForm.value;
-      }
     });
   }
 
@@ -102,17 +114,17 @@ export class DetectorDetailsComponent implements OnInit {
     this.showWebActionConfig = this.myForm.value.aType === ActionType.WebHookAction;
   }
 
+  enable(e) {
+    this.detector.enabled = e.enabled;
+  }
+
   submitForm() {
     if (this.editMode) {
       this.editedEventEmitter.emit(this.detector);
+    } else {
+      this.detector.appKey = environment.appKey;
+      this.createdEventEmitter.emit(this.detector);
     }
-  }
-
-  convertIntervalToTimeStruct(interval: number): NgbTimeStruct {
-    const seconds = Math.floor((interval / 1000) % 60);
-    const minutes = Math.floor(((interval / (1000 * 60)) % 60));
-    const hours   = Math.floor((interval / (1000 * 60 * 60)));
-    return {hour: hours, minute: minutes, second: seconds};
   }
 
   closeDetails() {

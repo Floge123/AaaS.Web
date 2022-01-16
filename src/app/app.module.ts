@@ -14,17 +14,20 @@ import { BrowserModule } from '@angular/platform-browser';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { MetricChartComponent } from './pages/metric-chart/metric-chart.component';
 import { MetricChartCreateComponent } from './pages/metric-chart-create/metric-chart-create.component';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { MetricDetailsComponent } from './pages/metric-details/metric-details.component';
 import { LogsComponent} from './pages/logs/logs.component';
-import {DxDataGridModule} from 'devextreme-angular';
+import { DxDataGridModule} from 'devextreme-angular';
 import { LogsSearchComponent } from './pages/logs-search/logs-search.component';
 import { DetectorListComponent } from './pages/detector-list/detector-list.component';
-import {DurationFormatPipe} from './pipes/duration-format.pipe';
-import {BoolEnabledPipe} from './pipes/bool-enabled.pipe';
+import { DurationFormatPipe} from './pipes/duration-format.pipe';
+import { BoolEnabledPipe} from './pipes/bool-enabled.pipe';
 import { DetectorToggleButtonComponent } from './pages/detector-toogle-button/detector-toggle-button.component';
 import { DetectorDetailsComponent } from './pages/detector-details/detector-details.component';
 import { DetectorDetailsButtonComponent } from './pages/detector-details-button/detector-details-button.component';
+import { DetectorDeleteButtonComponent } from './pages/detector-delete-button/detector-delete-button.component';
+import { HomeComponent} from './pages/home/home.component';
+import { OAuthModule } from 'angular-oauth2-oidc';
 
 @NgModule({
   declarations: [
@@ -40,22 +43,23 @@ import { DetectorDetailsButtonComponent } from './pages/detector-details-button/
     BoolEnabledPipe,
     DetectorToggleButtonComponent,
     DetectorDetailsComponent,
-    DetectorDetailsButtonComponent
+    DetectorDetailsButtonComponent,
+    DetectorDeleteButtonComponent,
+    HomeComponent
   ],
   imports: [
     BrowserAnimationsModule,
     BrowserModule,
     HttpClientModule,
-    RouterModule.forRoot(AppRoutes, {
-      useHash: true
-    }),
+    RouterModule.forRoot(AppRoutes),
     SidebarModule,
     NavbarModule,
     ToastrModule.forRoot(),
     ReactiveFormsModule,
     DxDataGridModule,
     NgbModule,
-    FormsModule
+    FormsModule,
+    OAuthModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]

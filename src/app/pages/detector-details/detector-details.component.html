@@ -29,7 +29,7 @@
               Type
             </span>
             <div class="col-8">
-              <select class="form-control text-center" formControlName="type" (change)="typeSelectChange()" disabled="editMode">
+              <select class="form-control text-center" formControlName="type" (change)="typeSelectChange()" [disabled]="editMode">
                 <option *ngFor="let detectorT of detectorTypes" [value]="detectorT">{{detectorT}}</option>
               </select>
             </div>
@@ -131,10 +131,10 @@
             </div>
           </div>
           <hr/>
-          <div class="text-center">
-            <h4 class="mt-0">Action Config</h4>
-          </div>
           <div *ngIf="showMailActionConfig">
+            <div class="text-center">
+              <h4 class="mt-0">Mail Action Config</h4>
+            </div>
             <div class="input-group row">
               <span class="col-4 d-flex align-items-center">
                 Mail Address
@@ -147,6 +147,9 @@
             </div>
           </div>
           <div *ngIf="showWebActionConfig">
+            <div class="text-center">
+              <h4 class="mt-0">Web Action Config</h4>
+            </div>
             <div class="input-group row">
               <span class="col-4 d-flex align-items-center">
                 Web Hook
@@ -164,10 +167,16 @@
         <div class="col-3 text-left">
           <button type="button" class="btn btn-danger" (click)="closeDetails()">Close</button>
         </div>
-        <div *ngIf="editMode" class="col-9 text-right">
+        <div class="col-6 text-center">
+          <app-detector-toggle-button
+            [state]="detector.enabled"
+            (toggledEventEmitter)="enable($event)"
+          ></app-detector-toggle-button>
+        </div>
+        <div *ngIf="editMode" class="col-3 text-right">
           <button type="submit" class="btn btn-success" [disabled]="myForm.invalid">Apply</button>
         </div>
-        <div *ngIf="!editMode" class="col-9 text-right">
+        <div *ngIf="!editMode" class="col-3 text-right">
           <button type="submit" class="btn btn-success" [disabled]="myForm.invalid">Create</button>
         </div>
       </div>

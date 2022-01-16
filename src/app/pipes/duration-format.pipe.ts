@@ -1,10 +1,28 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import {Injectable, Pipe, PipeTransform} from '@angular/core';
+import {NgbTimeStruct} from '@ng-bootstrap/ng-bootstrap';
 
 @Pipe({
   name: 'durationFormat',
   pure: false
 })
+@Injectable({
+  providedIn: 'root'
+})
 export class DurationFormatPipe implements PipeTransform {
+
+  convertIntervalToTimeStruct(interval: number): NgbTimeStruct {
+    const seconds = Math.floor((interval / 1000) % 60);
+    const minutes = Math.floor(((interval / (1000 * 60)) % 60));
+    const hours   = Math.floor((interval / (1000 * 60 * 60)));
+    return {hour: hours, minute: minutes, second: seconds};
+  }
+
+  convertTimeStructToInterval(struct: NgbTimeStruct): number {
+    const hours = Math.floor(struct.hour * (1000 * 60 * 60));
+    const minutes = Math.floor(struct.minute * (1000 * 60));
+    const seconds = Math.floor(struct.second * 1000);
+    return hours + minutes + seconds;
+  }
 
   transform(value: any, arg1: any, arg2: any): any {
 
