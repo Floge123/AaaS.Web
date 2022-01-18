@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {OAuthService} from 'angular-oauth2-oidc';
-import {BehaviorSubject, Observable, of, Subject} from 'rxjs';
+import {BehaviorSubject, Observable, of} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../../environments/environment.prod';
 import {catchError} from 'rxjs/operators';
@@ -9,7 +9,7 @@ import {catchError} from 'rxjs/operators';
   providedIn: 'root'
 })
 export class AuthenticationService {
-  temp = new BehaviorSubject<boolean>(false);
+  loggedIn = new BehaviorSubject<boolean>(false);
   appKey = new BehaviorSubject<string>(null);
 
   constructor(private oauthService: OAuthService, private http: HttpClient) {
@@ -28,7 +28,7 @@ export class AuthenticationService {
   isLoggedIn() {
     const res = this.oauthService.hasValidAccessToken() &&
       this.oauthService.hasValidIdToken();
-    this.temp.next(res)
+    this.loggedIn.next(res)
     return res;
   }
 

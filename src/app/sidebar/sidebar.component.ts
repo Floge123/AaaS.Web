@@ -29,7 +29,7 @@ export class SidebarComponent implements OnInit {
   constructor(private authService: AuthenticationService) {  }
 
   ngOnInit() {
-    this.authService.temp.subscribe(r => {
+    this.authService.loggedIn.subscribe(r => {
       this.loggedIn = r;
       if (this.loggedIn) {
         this.menuItems = ROUTES.filter(menuItem => menuItem);

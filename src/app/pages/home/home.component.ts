@@ -24,7 +24,7 @@ export class HomeComponent implements OnInit {
       key: new FormControl()
     });
 
-    this.auth.temp.subscribe(r => this.loggedIn = r);
+    this.auth.loggedIn.subscribe(r => this.loggedIn = r);
     this.auth.appKey.subscribe(key => {
       this.myForm = this.fb.group({
         key: [key, Validators.required]

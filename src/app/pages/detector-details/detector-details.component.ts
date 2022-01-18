@@ -81,6 +81,10 @@ export class DetectorDetailsComponent implements OnInit {
       web: this.detector.action.httpAddress
     });
 
+    if (this.editMode) {
+      this.myForm.controls.type.disable();
+    }
+
     this.myForm.statusChanges.subscribe(() => {
       this.updateErrorMessages()
       if (this.myForm.valid) {
