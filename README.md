@@ -57,21 +57,6 @@ The `Detector` Page offers a list of the Users detectors. This list is fully sor
 
 In the detailview, the properties of the detector can be viewed and changed. 
 
-# Domain Classes
-## Metric Chart
-```ts
-export class MetricChart {
-    constructor(
-        public metricName?: string,
-        public clientId?: string,
-        public chartName?: string,
-        public chartType?: string,
-        public borderColor?: string,
-        public fillColor?: string
-    ) {};
-}
-```
-
 # Components
 ## Dashboard
 ```html
