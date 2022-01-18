@@ -13,20 +13,20 @@ import {AuthenticationService} from '../../shared/services/authentication.servic
   styleUrls: ['./metric-chart-create.component.css']
 })
 export class MetricChartCreateComponent implements OnInit {
+  @Input() chartInfo: MetricChart;
+
+  @Output() editedEvent = new EventEmitter<{old: string, new: MetricChart}>();
+  @Output() createdEvent = new EventEmitter<MetricChart>();
+  @Output() cancelCreateEvent = new EventEmitter<any>();
+
   myForm!: FormGroup;
   metricNames: string[] = [];
   clientInstanceIds: string[] = [];
-
-  @Input() chartInfo: MetricChart;
   unselectString = '----';
   errors: { [key: string]: string } = {};
   editMode = true;
   editChartName: string;
   showPreview = false;
-
-  @Output() editedEvent = new EventEmitter<{old: string, new: MetricChart}>();
-  @Output() createdEvent = new EventEmitter<any>();
-  @Output() cancelCreateEvent = new EventEmitter<any>();
 
   constructor(private fb: FormBuilder,
               private metricService: MetricService,

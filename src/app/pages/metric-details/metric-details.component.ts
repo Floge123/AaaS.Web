@@ -9,7 +9,7 @@ import {MetricType} from '../../shared/domain/metric-type';
   styleUrls: ['./metric-details.component.css']
 })
 export class MetricDetailsComponent implements OnInit {
-  @Input() chart: MetricChart;
+  @Input() chartInfo: MetricChart;
   @Input() metrics: Metric[];
 
   @Output() closeEvent = new EventEmitter<any>();

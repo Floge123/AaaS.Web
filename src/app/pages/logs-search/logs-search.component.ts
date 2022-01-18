@@ -12,7 +12,7 @@ import {AuthenticationService} from '../../shared/services/authentication.servic
 })
 export class LogsSearchComponent implements OnInit {
   isLoading = false;
-  @Output() keyup = new EventEmitter<string>();
+  keyup = new EventEmitter<string>();
   @Output() logsFetched = new EventEmitter<Log[]>();
 
   constructor(private logService: LogService, private authService: AuthenticationService) { }

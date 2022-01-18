@@ -11,7 +11,7 @@ import {AuthenticationService} from '../../shared/services/authentication.servic
 })
 
 export class LogsComponent implements OnInit {
-  @Input() logs: Log[];
+  logs: Log[];
 
   constructor(private logService: LogService, private authService: AuthenticationService) { }
 

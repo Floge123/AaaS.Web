@@ -5,7 +5,6 @@ import {environment} from 'environments/environment.prod';
 import Chart from 'chart.js/auto'
 import zoomPlugin from 'chartjs-plugin-zoom'
 import {Metric} from '../../shared/domain/metric';
-import {MetricType} from '../../shared/domain/metric-type';
 import {AuthenticationService} from '../../shared/services/authentication.service';
 
 @Component({
