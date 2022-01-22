@@ -16,8 +16,12 @@ export class DetectorInitializer {
     if (!detector) {
       detector = new Detector();
     }
-    detector.telemetricName = source.metricName;
-    detector.type = source.type;
+    if (source.metricName) {
+      detector.telemetricName = source.metricName;
+    }
+    if (source.type) {
+      detector.type = source.type
+    }
     detector.executionInterval = this.durationFormatter.convertTimeStructToInterval(source.interval);
     if (detector.type === DetectorType.MinMaxDetector) {
       detector.minValue = source.min;
@@ -31,7 +35,9 @@ export class DetectorInitializer {
     if (!detector.action) {
       detector.action = new Action();
     }
-    detector.action.type = source.aType;
+    if (source.aType) {
+      detector.action.type = source.aType;
+    }
     if (detector.action.type === ActionType.WebHookAction) {
       detector.action.httpAddress = source.web;
     } else if (detector.action.type === ActionType.MailAction) {

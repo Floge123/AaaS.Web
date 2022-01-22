@@ -83,6 +83,8 @@ export class DetectorDetailsComponent implements OnInit {
 
     if (this.editMode) {
       this.myForm.controls.type.disable();
+      this.myForm.controls.metricName.disable();
+      this.myForm.controls.aType.disable();
     }
 
     this.myForm.statusChanges.subscribe(() => {

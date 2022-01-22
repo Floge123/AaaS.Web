@@ -34,6 +34,7 @@ When logged in, the User has to provide a valid `AppKey` in order to use the oth
 
 The `Metric` Page offers an overview to the Users metrics using `Chart.js`.
 Charts are stored in the browsers `localstorage`.
+<div style="page-break-after: always;"></div>
 
 ### Metric Details
 ![](./img/metric_details.PNG)
@@ -46,6 +47,7 @@ The chart is `scrollable` and `zoomable`.
 
 The `Log` Page offers a list of the Users logs. This list has a search-component, which filters the logs for a given string, which is then applied on all fields.
 All fields are sortable and filterable on their own.
+<div style="page-break-after: always;"></div>
 
 ## Detectors
 ![](./img/detector.PNG)
@@ -110,6 +112,7 @@ In the detailview, the properties of the detector can be viewed and changed.
 ```
 
 * (logsFetched): EventEmitter that emits when this component has retrieved a filtered list of logs and sends these logs
+<div style="page-break-after: always;"></div>
 
 ## Detector List
 ```html
@@ -147,6 +150,7 @@ This button is used to enable/disable a detector.
 
 * [detectorId]: Id of the detector that this button refers to
 * (deleteEventEmitter): EventEmitter that emits when the button is pressed and sends the id of the detector
+<div style="page-break-after: always;"></div>
 
 ## Detector Details
 ```html
