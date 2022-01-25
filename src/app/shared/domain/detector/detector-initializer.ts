@@ -38,6 +38,7 @@ export class DetectorInitializer {
     if (source.aType) {
       detector.action.type = source.aType;
     }
+    detector.enabled = false;
     if (detector.action.type === ActionType.WebHookAction) {
       detector.action.httpAddress = source.web;
     } else if (detector.action.type === ActionType.MailAction) {
